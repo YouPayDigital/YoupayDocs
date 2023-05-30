@@ -1,5 +1,5 @@
 ---
-title: API Reference
+title: Referência da API
 
 language_tabs: # must be one of https://github.com/rouge-ruby/rouge/wiki/List-of-supported-languages-and-lexers
   - shell
@@ -23,5 +23,5 @@ code_clipboard: true
 
 meta:
   - name: description
-    content: Documentation for the Kittn API
+    content: Documentação da API Core da Youpay
 ---
