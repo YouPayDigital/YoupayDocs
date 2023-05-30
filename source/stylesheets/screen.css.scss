@@ -48,6 +48,9 @@ html, body {
 }
 
 .toc-wrapper {
+  display: flex;
+  flex-direction: column;
+
   transition: left 0.3s ease-in-out;
 
   overflow-y: auto;
@@ -92,6 +95,19 @@ html, body {
       outline: none;
       color: $nav-text;
       border-radius: 0; /* ios has a default border radius */
+
+      &::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+        color: $nav-text;
+        opacity: 1; /* Firefox */
+      }
+
+      &:-ms-input-placeholder { /* Internet Explorer 10-11 */
+        color: $nav-text;
+      }
+
+      &::-ms-input-placeholder { /* Microsoft Edge */
+        color: $nav-text;
+      }
     }
 
     &:before {
@@ -317,6 +333,7 @@ html, body {
 .content {
   // fixes webkit rendering bug for some: see #538
   -webkit-transform: translateZ(0);
+  transform: translateZ(0);
   // to place content above the dark box
   position: relative;
   z-index: 30;
