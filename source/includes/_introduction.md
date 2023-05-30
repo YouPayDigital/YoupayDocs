@@ -1,7 +1,12 @@
-# Introduction
+# Introdução
 
-Welcome to the Kittn API! You can use our API to access Kittn API endpoints, which can get information on various cats, kittens, and breeds in our database.
+A API de cobranças da Youpay, está implementada em conformidade com o princípio de
+design REST.
 
-We have language bindings in Shell, Ruby, Python, and JavaScript! You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.
+Essa API possui recursos orientados a URLs, com códigos HTTP para indicar erros. Ela utiliza também funcionalidades HTTP nativas, como verbos
+de ação POST, PUT, GET, DELETE, para operações de leitura e escrita, bem
+como o modelo básico de autenticação HTTP.
 
-This example API documentation page was created with [Slate](https://github.com/slatedocs/slate). Feel free to edit it and use it as a base for your own API's documentation.
+Há ainda o suporte de chamadas diretas aos recursos da API a partir de outras origens - CORS (cross-origin resource sharing) - permitindo você interagir de maneira segura com a API a partir de aplicações web.
+
+Todas as respostas da API estão no formato de dados JSON, incluindo errors.
