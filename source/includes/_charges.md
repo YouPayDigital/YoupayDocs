@@ -271,7 +271,15 @@ Response response = client.newCall(request).execute();
 }
 ```
 
-Para gerar uma nova cobrança por meio da API da Youpay é necessário realizar um **`POST`** para **`http://homolog.youpay.digital/api/charge/new`** passando os seguintes parâmetros:
+As cobranças são um tema central da API da Youpay.
+
+Nesta seção da documentação, você irá aprender como gerar uma nova cobrança, quais parâmetros são opcionais e obrigatórios.
+
+### Requisição HTTP
+
+`POST http://homolog.youpay.digital/api/charge/new`
+
+### Corpo da requisição
 
 | Parâmetro                                            | Descrição                                                 | Tipo      |
 | ---------------------------------------------------- | --------------------------------------------------------- | --------- |
@@ -560,11 +568,19 @@ Response response = client.newCall(request).execute();
 }
 ```
 
-Para resgatar os detalhes de uma cobrança por meio da API da Youpay é necessário realizar um **`GET`** para **`http://homolog.youpay.digital/api/charge/<id_da_cobrança>`** passando o identificador da cobrança como um parâmetro da rota.
-
-Além dos dados convencionais das cobranças já discutidos anteriormente, há um novo campo chamado **`payments`** no final do objeto retornado.
+Essa requisição retorna os detalhes de uma cobrança, mas, além dos dados convencionais já discutidos anteriormente, há um novo campo chamado **`payments`** no final do objeto retornado.
 
 Com esse campo é possível ver se a cobrança já possui algum pagamento, qual o status dos pagamentos e etc.
+
+### Requisição HTTP
+
+`GET http://homolog.youpay.digital/api/charge/<id_da_cobrança>`
+
+### Parâmetros da URL
+
+| Parâmetro      | Descrição                 | Tipo   |
+| -------------- | ------------------------- | ------ |
+| id_da_cobrança | Identificador da cobrança | String |
 
 Caso a cobrança tenha sido cancelada, a resposta seguirá um formato ligeiramente diferente, como mostrado na tabela abaixo:
 
@@ -675,11 +691,21 @@ Response response = client.newCall(request).execute();
 
 > A requisição acima retorna uma resposta vazia, com status 200.
 
-Para realizar o cancelamento de uma cobrança por meio da API da Youpay é necessário realizar um **`DELETE`** para **`http://homolog.youpay.digital/api/charge/delete/<id_da_cobrança>`** passando o identificador da cobrança como um parâmetro da rota.
+Ao cancelar uma cobrança, você a deixa impossibilitada de receber novos pagamentos.
 
 Essa requisição não retorna nada em caso de sucesso, apenas uma resposta com [status 200 (OK)](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/200);
 
 Caso queira ver os [detalhes da cobrança](#detalhes-de-uma-cobranca) no futuro, a resposta seguirá o formato discutido no tópico anterior, mostrando o status de `Cobrança cancelada`.
+
+### Requisição HTTP
+
+`DELETE http://homolog.youpay.digital/api/charge/delete/<id_da_cobrança>`
+
+### Parâmetros da URL
+
+| Parâmetro      | Descrição                 | Tipo   |
+| -------------- | ------------------------- | ------ |
+| id_da_cobrança | Identificador da cobrança | String |
 
 ### Possíveis erros
 

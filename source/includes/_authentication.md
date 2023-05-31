@@ -121,14 +121,22 @@ Response response = client.newCall(request).execute();
 }
 ```
 
-Para gerá-lo é necessário realizar um **`POST`** para **`https://homolog.youpay.digital/oauth/token`**, passando as seguintes informações:
+Para acessar os recursos da API da Youpay é necessário informar um token de autenticação em cada requisição.
 
-| Parâmetro                              | Descrição                                                                 | Tipo   |
-| -------------------------------------- | ------------------------------------------------------------------------- | ------ |
-| grant_type _<sub>Obrigatório</sub>_    | Um tipo de [grant type do OAuth2](https://oauth.net/2/grant-types/)       | String |
-| client_id _<sub>Obrigatório</sub>_     | O identificador da sua conta na nossa base                                | String |
-| client_secret _<sub>Obrigatório</sub>_ | O secret da sua conta na nossa base                                       | String |
-| scope _<sub>Obrigatório</sub>_         | O [escopo de acesso](https://oauth.net/2/scope/) que o token irá garantir | String |
+A fim de gerar esse token, será necessário seguir os passos abaixo:
+
+### Requisição HTTP
+
+`POST https://homolog.youpay.digital/oauth/token`
+
+### Corpo da requisição
+
+| Parâmetro                            | Descrição                                                                 | Tipo   |
+| ------------------------------------ | ------------------------------------------------------------------------- | ------ |
+| grant_type <sub>Obrigatório</sub>    | Um tipo de [grant type do OAuth2](https://oauth.net/2/grant-types/)       | String |
+| client_id <sub>Obrigatório</sub>     | O identificador da sua conta na nossa base                                | String |
+| client_secret <sub>Obrigatório</sub> | O secret da sua conta na nossa base                                       | String |
+| scope <sub>Obrigatório</sub>         | O [escopo de acesso](https://oauth.net/2/scope/) que o token irá garantir | String |
 
 Caso a requisição ocorra como o esperado, você receberá uma resposta no seguinte padrão:
 
