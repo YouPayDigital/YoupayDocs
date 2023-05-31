@@ -121,14 +121,14 @@ Response response = client.newCall(request).execute();
 }
 ```
 
-Para gerá-lo é necessário realizar um `POST` para `https://homolog.youpay.digital/oauth/token`, passando as seguintes informações:
+Para gerá-lo é necessário realizar um **`POST`** para **`https://homolog.youpay.digital/oauth/token`**, passando as seguintes informações:
 
-| Parâmetro     | Descrição                                                                 | Tipo   |
-| ------------- | ------------------------------------------------------------------------- | ------ |
-| grant_type    | Um tipo de [grant type do OAuth2](https://oauth.net/2/grant-types/)       | String |
-| client_id     | O identificador da sua conta na nossa base                                | String |
-| client_secret | O secret da sua conta na nossa base                                       | String |
-| scope         | O [escopo de acesso](https://oauth.net/2/scope/) que o token irá garantir | String |
+| Parâmetro                              | Descrição                                                                 | Tipo   |
+| -------------------------------------- | ------------------------------------------------------------------------- | ------ |
+| grant_type _<sub>Obrigatório</sub>_    | Um tipo de [grant type do OAuth2](https://oauth.net/2/grant-types/)       | String |
+| client_id _<sub>Obrigatório</sub>_     | O identificador da sua conta na nossa base                                | String |
+| client_secret _<sub>Obrigatório</sub>_ | O secret da sua conta na nossa base                                       | String |
+| scope _<sub>Obrigatório</sub>_         | O [escopo de acesso](https://oauth.net/2/scope/) que o token irá garantir | String |
 
 Caso a requisição ocorra como o esperado, você receberá uma resposta no seguinte padrão:
 
