@@ -585,52 +585,106 @@ Caso a cobrança não seja encontrada, será retornado um [status HTTP 404 (Not 
 | ------ | ----------------------------------------------------- | ------ |
 | status | Status da cobrança, exemplo `Cobrança não encontrada` | String |
 
-## Delete a Specific Kitten
+## Cancelando uma cobrança
 
 ```ruby
-require 'kittn'
+require "uri"
+require "json"
+require "net/http"
 
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.delete(2)
+url = URI("http://homolog.youpay.digital/api/charge/delete/744cee94-308f-41cb-b05f-956ce016d456")
+
+http = Net::HTTP.new(url.host, url.port);
+request = Net::HTTP::Delete.new(url)
+request["Content-Type"] = "application/json"
+request["idEstablishment"] = "<seu_establishment_id>"
+request["Accept"] = "application/json"
+request["Authorization"] = "Bearer <token_exemplo>"
+
+response = http.request(request)
+puts response.read_body
+
 ```
 
 ```python
-import kittn
+import requests
+import json
 
-api = kittn.authorize('meowmeowmeow')
-api.kittens.delete(2)
+url = "http://homolog.youpay.digital/api/charge/delete/744cee94-308f-41cb-b05f-956ce016d456"
+
+payload = {}
+headers = {
+  'Content-Type': 'application/json',
+  'idEstablishment': '<seu_establishment_id>',
+  'Accept': 'application/json',
+  'Authorization': 'Bearer <token_exemplo>'
+}
+
+response = requests.request("DELETE", url, headers=headers, data=payload)
+
+print(response.text)
 ```
 
 ```shell
-curl "http://example.com/api/kittens/2" \
-  -X DELETE \
-  -H "Authorization: meowmeowmeow"
+curl --location --request DELETE 'http://homolog.youpay.digital/api/charge/delete/744cee94-308f-41cb-b05f-956ce016d456' \
+--header 'Content-Type: application/json' \
+--header 'idEstablishment: <seu_establishment_id>' \
+--header 'Accept: application/json' \
+--header 'Authorization: Bearer <token_exemplo>'
 ```
 
 ```javascript
-const kittn = require("kittn");
+const myHeaders = new Headers();
+myHeaders.append("Content-Type", "application/json");
+myHeaders.append("idEstablishment", "<seu_establishment_id>");
+myHeaders.append("Accept", "application/json");
+myHeaders.append("Authorization", "Bearer <token_exemplo>");
 
-let api = kittn.authorize("meowmeowmeow");
-let max = api.kittens.delete(2);
+const requestOptions = {
+  method: "DELETE",
+  headers: myHeaders,
+  redirect: "follow",
+};
+
+fetch(
+  "http://homolog.youpay.digital/api/charge/delete/744cee94-308f-41cb-b05f-956ce016d456",
+  requestOptions
+)
+  .then((response) => response.text())
+  .then((result) => console.log(result))
+  .catch((error) => console.log("error", error));
 ```
 
-> The above command returns JSON structured like this:
-
-```json
-{
-  "id": 2,
-  "deleted": ":("
-}
+```java
+OkHttpClient client = new OkHttpClient().newBuilder()
+  .build();
+MediaType mediaType = MediaType.parse("application/json");
+RequestBody body = RequestBody.create(mediaType, "");
+Request request = new Request.Builder()
+  .url("http://homolog.youpay.digital/api/charge/delete/744cee94-308f-41cb-b05f-956ce016d456")
+  .method("DELETE", body)
+  .addHeader("Content-Type", "application/json")
+  .addHeader("idEstablishment", "<seu_establishment_id>")
+  .addHeader("Accept", "application/json")
+  .addHeader("Authorization", "Bearer <token_exemplo>")
+  .build();
+Response response = client.newCall(request).execute();
 ```
 
-This endpoint deletes a specific kitten.
+> Se certifique de trocar token_exemplo e seu_establishment_id pelos dados corretos.
 
-### HTTP Request
+> A requisição acima retorna uma resposta vazia, com status 200.
 
-`DELETE http://example.com/kittens/<ID>`
+Para realizar o cancelamento de uma cobrança por meio da API da Youpay é necessário realizar um **`DELETE`** para **`http://homolog.youpay.digital/api/charge/delete/<id_da_cobrança>`** passando o identificador da cobrança como um parâmetro da rota.
 
-### URL Parameters
+Essa requisição não retorna nada em caso de sucesso, apenas uma resposta com [status 200 (OK)](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/200);
 
-| Parameter | Description                    |
-| --------- | ------------------------------ |
-| ID        | The ID of the kitten to delete |
+Caso queira ver os [detalhes da cobrança](#detalhes-de-uma-cobranca) no futuro, a resposta seguirá o formato discutido no tópico anterior, mostrando o status de `Cobrança cancelada`.
+
+### Possíveis erros
+
+Caso a cobrança não seja encontrada, será retornado um [status HTTP 404 (Not Found)](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404) e uma resposta seguindo o padrão abaixo:
+
+| Campo  | Description                                           | Tipo   |
+| ------ | ----------------------------------------------------- | ------ |
+| status | Status da cobrança, exemplo `Cobrança não encontrada` | String |
