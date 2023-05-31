@@ -1,69 +1,330 @@
-# Kittens
+# Cobranças
 
-## Get All Kittens
+## Gerando uma nova cobrança
 
 ```ruby
-require 'kittn'
+require "uri"
+require "json"
+require "net/http"
 
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.get
+url = URI("http://homolog.youpay.digital/api/charge/new")
+
+http = Net::HTTP.new(url.host, url.port);
+request = Net::HTTP::Post.new(url)
+request["Content-Type"] = "application/json"
+request["idEstablishment"] = "<seu_establishment_id>"
+request["Accept"] = "application/json"
+request["Authorization"] = "Bearer <token_exemplo>"
+request.body = JSON.dump({
+  "description": "Pagamento de 10 coxinhas de frango",
+  "obs": "Esta é uma cobrança exemplo da API",
+  "type_transaction_installments": "FULL",
+  "installments_max_allow": 1,
+  "amount": 10.58,
+  "due_at": "2023-09-30 02:15:25",
+  "allow_card": true,
+  "allow_pix": true,
+  "allow_boleto": true,
+  "use_only_once": true,
+  "split": [
+    {
+      "id_establishment": "<establishment_id_exemplo>",
+      "amount": 2,
+      "type": "FIXED"
+    }
+  ],
+  "advanced": [
+    {
+      "interest": {
+        "value": "0.00"
+      }
+    },
+    {
+      "fine": {
+        "value": "0.00"
+      }
+    },
+    {
+      "discount": {
+        "value": "0.0",
+        "dueDateLimitDays": 0,
+        "type": "FIXED"
+      }
+    }
+  ]
+})
+
+response = http.request(request)
+puts response.read_body
 ```
 
 ```python
-import kittn
+import requests
+import json
 
-api = kittn.authorize('meowmeowmeow')
-api.kittens.get()
+url = "http://homolog.youpay.digital/api/charge/new"
+
+payload = json.dumps({
+  "description": "Pagamento de 10 coxinhas de frango",
+  "obs": "Esta é uma cobrança exemplo da API",
+  "type_transaction_installments": "FULL",
+  "installments_max_allow": 1,
+  "amount": 10.58,
+  "due_at": "2023-09-30 02:15:25",
+  "allow_card": True,
+  "allow_pix": True,
+  "allow_boleto": True,
+  "use_only_once": True,
+  "split": [
+    {
+      "id_establishment": "<establishment_id_exemplo>",
+      "amount": 2,
+      "type": "FIXED"
+    }
+  ],
+  "advanced": [
+    {
+      "interest": {
+        "value": "0.00"
+      }
+    },
+    {
+      "fine": {
+        "value": "0.00"
+      }
+    },
+    {
+      "discount": {
+        "value": "0.0",
+        "dueDateLimitDays": 0,
+        "type": "FIXED"
+      }
+    }
+  ]
+})
+headers = {
+  'Content-Type': 'application/json',
+  'idEstablishment': '<seu_establishment_id>',
+  'Accept': 'application/json',
+  'Authorization': 'Bearer <token_exemplo>'
+}
+
+response = requests.request("POST", url, headers=headers, data=payload)
+
+print(response.text)
+
 ```
 
 ```shell
-curl "http://example.com/api/kittens" \
-  -H "Authorization: meowmeowmeow"
+curl --location --request POST 'http://homolog.youpay.digital/api/charge/new' \
+--header 'Content-Type: application/json' \
+--header 'idEstablishment: <seu_establishment_id>' \
+--header 'Accept: application/json' \
+--header 'Authorization: Bearer <token_exemplo>' \
+--data '{
+    "description": "Pagamento de 10 coxinhas de frango",
+    "obs": "Esta é uma cobrança exemplo da API",
+    "type_transaction_installments": "FULL",
+    "installments_max_allow": 1,
+    "amount": 10.58,
+    "due_at": "2023-09-30 02:15:25",
+    "allow_card": true,
+    "allow_pix": true,
+    "allow_boleto": true,
+    "use_only_once": true,
+    "split": [
+        {
+            "id_establishment": "<establishment_id_exemplo>",
+            "amount": 2,
+            "type": "FIXED"
+        }
+    ],
+    "advanced": [
+        {
+            "interest": {
+                "value": "0.00"
+            }
+        },
+        {
+            "fine": {
+                "value": "0.00"
+            }
+        },
+        {
+            "discount": {
+                "value": "0.0",
+                "dueDateLimitDays": 0,
+                "type": "FIXED"
+            }
+        }
+    ]
+}'
 ```
 
 ```javascript
-const kittn = require("kittn");
+const myHeaders = new Headers();
+myHeaders.append("Content-Type", "application/json");
+myHeaders.append("idEstablishment", "<seu_establishment_id>");
+myHeaders.append("Accept", "application/json");
+myHeaders.append("Authorization", "Bearer <token_exemplo>");
 
-let api = kittn.authorize("meowmeowmeow");
-let kittens = api.kittens.get();
+const raw = JSON.stringify({
+  description: "Pagamento de 10 coxinhas de frango",
+  obs: "Esta é uma cobrança exemplo da API",
+  type_transaction_installments: "FULL",
+  installments_max_allow: 1,
+  amount: 10.58,
+  due_at: "2023-09-30 02:15:25",
+  allow_card: true,
+  allow_pix: true,
+  allow_boleto: true,
+  use_only_once: true,
+  split: [
+    {
+      id_establishment: "<establishment_id_exemplo>",
+      amount: 2,
+      type: "FIXED",
+    },
+  ],
+  advanced: [
+    {
+      interest: {
+        value: "0.00",
+      },
+    },
+    {
+      fine: {
+        value: "0.00",
+      },
+    },
+    {
+      discount: {
+        value: "0.0",
+        dueDateLimitDays: 0,
+        type: "FIXED",
+      },
+    },
+  ],
+});
+
+const requestOptions = {
+  method: "POST",
+  headers: myHeaders,
+  body: raw,
+  redirect: "follow",
+};
+
+fetch("http://homolog.youpay.digital/api/charge/new", requestOptions)
+  .then((response) => response.text())
+  .then((result) => console.log(result))
+  .catch((error) => console.log("error", error));
 ```
 
-> The above command returns JSON structured like this:
+```java
+OkHttpClient client = new OkHttpClient().newBuilder()
+  .build();
+MediaType mediaType = MediaType.parse("application/json");
+RequestBody body = RequestBody.create(mediaType, "{\n    \"description\": \"Pagamento de 10 coxinhas de frango\",\n    \"obs\": \"Esta é uma cobrança exemplo da API\",\n    \"type_transaction_installments\": \"FULL\",\n    \"installments_max_allow\": 1,\n    \"amount\": 10.58,\n    \"due_at\": \"2023-09-30 02:15:25\",\n    \"allow_card\": true,\n    \"allow_pix\": true,\n    \"allow_boleto\": true,\n    \"use_only_once\": true,\n    \"split\": [\n        {\n            \"id_establishment\": \"<establishment_id_exemplo>\",\n            \"amount\": 2,\n            \"type\": \"FIXED\"\n        }\n    ],\n    \"advanced\": [\n        {\n            \"interest\": {\n                \"value\": \"0.00\"\n            }\n        },\n        {\n            \"fine\": {\n                \"value\": \"0.00\"\n            }\n        },\n        {\n            \"discount\": {\n                \"value\": \"0.0\",\n                \"dueDateLimitDays\": 0,\n                \"type\": \"FIXED\"\n            }\n        }\n    ]\n}");
+Request request = new Request.Builder()
+  .url("http://homolog.youpay.digital/api/charge/new")
+  .method("POST", body)
+  .addHeader("Content-Type", "application/json")
+  .addHeader("idEstablishment", "<seu_establishment_id>")
+  .addHeader("Accept", "application/json")
+  .addHeader("Authorization", "Bearer <token_exemplo>")
+  .build();
+Response response = client.newCall(request).execute();
+```
+
+> Se certifique de trocar token_exemplo, seu_establishment_id e establishment_id_exemplo pelos dados corretos.
+> A requisição acima retorna um JSON estruturado desta forma:
 
 ```json
-[
-  {
-    "id": 1,
-    "name": "Fluffums",
-    "breed": "calico",
-    "fluffiness": 6,
-    "cuteness": 7
-  },
-  {
-    "id": 2,
-    "name": "Max",
-    "breed": "unknown",
-    "fluffiness": 5,
-    "cuteness": 10
-  }
-]
+{
+  "id": "a10001b7-a1b6-4783-bc56-1b54cc630780",
+  "description": "Pagamento de 10 coxinhas de frango",
+  "obs": "Esta é uma cobrança exemplo da API",
+  "id_establishment": "<seu_establishment_id>",
+  "type_transaction_installments": "FULL",
+  "amount": 10.58,
+  "due_at": "2023-09-30T05:15:25.000000Z",
+  "method_card_allow": true,
+  "method_pix_allow": true,
+  "method_boleto_allow": true,
+  "use_only_once": 1,
+  "installments_max_allow": 1,
+  "id_user_created_charge": null,
+  "type_transaction": null,
+  "name_notification": null,
+  "cellphone_notification": null,
+  "email_notification": null,
+  "discounts": "[{\"interest\":{\"value\":\"0.00\"}},{\"fine\":{\"value\":\"0.00\"}},{\"discount\":{\"value\":\"0.0\",\"dueDateLimitDays\":0,\"type\":\"FIXED\"}}]",
+  "split": [
+    {
+      "id_establishment": "<establishment_id_exemplo>",
+      "amount": 2,
+      "type": "FIXED"
+    }
+  ],
+  "updated_at": "2023-05-31T11:52:07.000000Z",
+  "created_at": "2023-05-31T11:52:07.000000Z"
+}
 ```
 
-This endpoint retrieves all kittens.
+Para gerar uma nova cobrança por meio da API da Youpay é necessário realizar um **`POST`** para **`http://homolog.youpay.digital/api/charge/new`** passando os seguintes parâmetros:
 
-### HTTP Request
+| Parâmetro                                            | Descrição                                                 | Tipo      |
+| ---------------------------------------------------- | --------------------------------------------------------- | --------- |
+| description <sub>Obrigatório</sub>                   | Descrição/Título da cobrança                              | String    |
+| obs                                                  | Campo para observações extras da cobrança                 | string    |
+| type_transaction_installments <sub>Obrigatório</sub> | Tipo de parcelamento da cobrança                          | string    |
+| installments_max_allow <sub>Obrigatório</sub>        | Número máximo permitido de parcelas                       | string    |
+| amount <sub>Obrigatório</sub>                        | Valor da cobrança                                         | Float     |
+| due_at <sub>Obrigatório</sub>                        | Data de vencimento da cobrança                            | Timestamp |
+| allow_card <sub>Obrigatório</sub>                    | Flag para permitir pagamento com cartão                   | Boolean   |
+| allow_pix <sub>Obrigatório</sub>                     | Flag para permitir pagamento via Pix                      | Boolean   |
+| allow_boleto <sub>Obrigatório</sub>                  | Flag para permitir pagamento com boleto                   | Boolean   |
+| use_only_once <sub>Obrigatório</sub>                 | Flag para permitir o pagamento da cobrança apenas uma vez | Boolean   |
+| id_user_created_charge                               | Identificador do usuário que criou a cobrança             | String    |
+| name_notification                                    | Nome para uma notificação via telefone ou e-mail          | String    |
+| cellphone_notification                               | Telefone que irá receber a notificação                    | String    |
+| email_notification                                   | E-mail que irá receber a notificação                      | String    |
 
-`GET http://example.com/api/kittens`
+### Split de pagamento
 
-### Query Parameters
+Com a API da Youpay é possível configurar o split do pagamento na hora da criação da cobrança.
 
-| Parameter    | Default | Description                                                                      |
-| ------------ | ------- | -------------------------------------------------------------------------------- |
-| include_cats | false   | If set to true, the result will also include cats.                               |
-| available    | true    | If set to false, the result will include kittens that have already been adopted. |
+Para isso, é necessário passar no corpo da requisição um `Array` chamado **`split`** composto por objetos seguindo o padrão abaixo:
 
-<aside class="success">
-Remember — a happy kitten is an authenticated kitten!
+| Parâmetro                               | Descrição                                                        | Tipo   |
+| --------------------------------------- | ---------------------------------------------------------------- | ------ |
+| id_establishment <sub>Obrigatório</sub> | Identificador do establishment resonsável por dividir a cobrança | String |
+| amount <sub>Obrigatório</sub>           | Valor fixo ou percentual do split                                | Float  |
+| type <sub>Obrigatório</sub>             | Tipo do split                                                    | String |
+
+Um split de pagamentos pode ser do tipo `FIXED`, em que o campo `amount` é tratado como um valor em `R$`. Ou do tipo `PERCENTAGE`, em que o campo `amount` é tratado como um percentual do valor original da cobrança.
+
+### Juros, multas e descontos
+
+Para o cálculo de juros, multas e descontos nas cobranças é necessário passar no corpo da requisição um `Array` chamado **`advanced`** composto pelos objetos `interest`, `fine` e `discount` seguindo o padrão abaixo:
+
+#### Juros e multas
+
+| Parâmetro                    | Descrição                             | Tipo   |
+| ---------------------------- | ------------------------------------- | ------ |
+| value <sub>Obrigatório</sub> | Valor (em `R$`) dos juros ou da multa | Float  |
+| type                         | Tipo do valor dos juros ou multa      | String |
+
+#### Descontos
+
+| Parâmetro                    | Descrição                                                                  | Tipo   |
+| ---------------------------- | -------------------------------------------------------------------------- | ------ |
+| value <sub>Obrigatório</sub> | Valor do desconto                                                          | Float  |
+| dueDateLimitDays             | Número de dias que o desconto continua valendo antes da data de vencimento | Int    |
+| type                         | Tipo do valor do desconto                                                  | String |
+
+<aside class="notice">
+Assim como no split de pagamentos, o campo `type` pode ser do tipo `FIXED` ou do tipo `PERCENTAGE`, seguindo as mesmas regras já mencionadas.
 </aside>
 
 ## Get a Specific Kitten
