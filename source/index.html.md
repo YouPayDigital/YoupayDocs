@@ -15,6 +15,7 @@ includes:
   - authentication
   - authorization
   - charges
+  - payments
   - errors
 
 search: true
