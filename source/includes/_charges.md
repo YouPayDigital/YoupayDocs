@@ -509,6 +509,7 @@ Response response = client.newCall(request).execute();
 ```
 
 > Se certifique de trocar token_exemplo e seu_establishment_id pelos dados corretos.
+
 > A requisição acima retorna um JSON estruturado desta forma:
 
 ```json
@@ -559,21 +560,30 @@ Response response = client.newCall(request).execute();
 }
 ```
 
-Para resgatar os detalhes de uma cobrança por meio da API da Youpay é necessário realizar um **`GET`** para **`http://homolog.youpay.digital/api/charge/<id_da_cobrança>`** passando o identificador da cobrança na como um parâmetro da rota.
+Para resgatar os detalhes de uma cobrança por meio da API da Youpay é necessário realizar um **`GET`** para **`http://homolog.youpay.digital/api/charge/<id_da_cobrança>`** passando o identificador da cobrança como um parâmetro da rota.
 
-This endpoint retrieves a specific kitten.
+Além dos dados convencionais das cobranças já discutidos anteriormente, há um novo campo chamado **`payments`** no final do objeto retornado.
 
-<aside class="warning">Inside HTML code blocks like this one, you can't use Markdown, so use <code>&lt;code&gt;</code> blocks to denote code.</aside>
+Com esse campo é possível ver se a cobrança já possui algum pagamento, qual o status dos pagamentos e etc.
 
-### HTTP Request
+Caso a cobrança tenha sido cancelada, a resposta seguirá um formato ligeiramente diferente, como mostrado na tabela abaixo:
 
-`GET http://example.com/kittens/<ID>`
+| Campo  | Description                                      | Tipo   |
+| ------ | ------------------------------------------------ | ------ |
+| status | Status da cobrança, exemplo `Cobrança cancelada` | String |
+| charge | Dados da cobrança                                | Objeto |
 
-### URL Parameters
+<aside class="notice">
+Mais detalhes sobre o objeto de pagamentos e cancelamentos de cobranças serão discutidos em seções futuras da documentação.
+</aside>
 
-| Parameter | Description                      |
-| --------- | -------------------------------- |
-| ID        | The ID of the kitten to retrieve |
+### Possíveis erros
+
+Caso a cobrança não seja encontrada, será retornado um [status HTTP 404 (Not Found)](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404) e uma resposta seguindo o padrão abaixo:
+
+| Campo  | Description                                           | Tipo   |
+| ------ | ----------------------------------------------------- | ------ |
+| status | Status da cobrança, exemplo `Cobrança não encontrada` | String |
 
 ## Delete a Specific Kitten
 
