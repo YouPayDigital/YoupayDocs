@@ -422,7 +422,7 @@ De maneira geral, os erros de criação de cobranças seguem sempre o seguinte p
 | msg     | Uma mensagem sobre o erro           | String |
 | details | Mais detalhes sobre a causa do erro | String |
 
-Além desse padrão de respostas, os [status HTTP](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status) utilzados nos casos de erro também visam ajudá-lo a entender o que pode ter ocorrido, abaixo está uma lista de status utilizados nesse fluxo e o que podem significar:
+Além desse padrão de respostas, os [status HTTP](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status) utilizados nos casos de erro também visam ajudá-lo a entender o que pode ter ocorrido, abaixo está uma lista de status utilizados nesse fluxo e o que podem significar:
 
 | Código | Nome                  | Descrição                                                                                               |
 | ------ | --------------------- | ------------------------------------------------------------------------------------------------------- |
