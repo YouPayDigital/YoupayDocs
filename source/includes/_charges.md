@@ -422,45 +422,144 @@ Além desse padrão de respostas, os [status HTTP](https://developer.mozilla.org
 | 403    | Forbidden             | O usuário não possui os direitos para acessar o conteúdo                                                |
 | 422    | Unprocessable Content | Alguma informação obrigatória não foi fornecida no corpo da requisição                                  |
 
-## Get a Specific Kitten
+## Detalhes de uma cobrança
 
 ```ruby
-require 'kittn'
+require "uri"
+require "json"
+require "net/http"
 
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.get(2)
+url = URI("http://homolog.youpay.digital/api/charge/744cee94-308f-41cb-b05f-956ce016d456")
+
+http = Net::HTTP.new(url.host, url.port);
+request = Net::HTTP::Get.new(url)
+request["Content-Type"] = "application/json"
+request["idEstablishment"] = "<seu_establishment_id>"
+request["Accept"] = "application/json"
+request["Authorization"] = "Bearer <token_exemplo>"
+
+response = http.request(request)
+puts response.read_body
+
 ```
 
 ```python
-import kittn
+import requests
+import json
 
-api = kittn.authorize('meowmeowmeow')
-api.kittens.get(2)
+url = "http://homolog.youpay.digital/api/charge/744cee94-308f-41cb-b05f-956ce016d456"
+
+payload = {}
+headers = {
+  'Content-Type': 'application/json',
+  'idEstablishment': '<seu_establishment_id>',
+  'Accept': 'application/json',
+  'Authorization': 'Bearer <token_exemplo>'
+}
+
+response = requests.request("GET", url, headers=headers, data=payload)
+
+print(response.text)
 ```
 
 ```shell
-curl "http://example.com/api/kittens/2" \
-  -H "Authorization: meowmeowmeow"
+curl --location 'http://homolog.youpay.digital/api/charge/744cee94-308f-41cb-b05f-956ce016d456' \
+--header 'Content-Type: application/json' \
+--header 'idEstablishment: <seu_establishment_id>' \
+--header 'Accept: application/json' \
+--header 'Authorization: Bearer <token_exemplo>'
 ```
 
 ```javascript
-const kittn = require("kittn");
+const myHeaders = new Headers();
+myHeaders.append("Content-Type", "application/json");
+myHeaders.append("idEstablishment", "<seu_establishment_id>");
+myHeaders.append("Accept", "application/json");
+myHeaders.append("Authorization", "Bearer <token_exemplo>");
 
-let api = kittn.authorize("meowmeowmeow");
-let max = api.kittens.get(2);
+const requestOptions = {
+  method: "GET",
+  headers: myHeaders,
+  redirect: "follow",
+};
+
+fetch(
+  "http://homolog.youpay.digital/api/charge/744cee94-308f-41cb-b05f-956ce016d456",
+  requestOptions
+)
+  .then((response) => response.text())
+  .then((result) => console.log(result))
+  .catch((error) => console.log("error", error));
 ```
 
-> The above command returns JSON structured like this:
+```java
+OkHttpClient client = new OkHttpClient().newBuilder()
+  .build();
+MediaType mediaType = MediaType.parse("application/json");
+RequestBody body = RequestBody.create(mediaType, "");
+Request request = new Request.Builder()
+  .url("http://homolog.youpay.digital/api/charge/744cee94-308f-41cb-b05f-956ce016d456")
+  .method("GET", body)
+  .addHeader("Content-Type", "application/json")
+  .addHeader("idEstablishment", "<seu_establishment_id>")
+  .addHeader("Accept", "application/json")
+  .addHeader("Authorization", "Bearer <token_exemplo>")
+  .build();
+Response response = client.newCall(request).execute();
+```
+
+> Se certifique de trocar token_exemplo e seu_establishment_id pelos dados corretos.
+> A requisição acima retorna um JSON estruturado desta forma:
 
 ```json
 {
-  "id": 2,
-  "name": "Max",
-  "breed": "unknown",
-  "fluffiness": 5,
-  "cuteness": 10
+  "id": "744cee94-308f-41cb-b05f-956ce016d456",
+  "description": "Pagamento de 10 coxinhas de frango",
+  "obs": "Esta é uma cobrança exemplo da API",
+  "amount": "10.58",
+  "id_establishment": "cad21c87-aca9-409d-84d1-ac0ddb983b88",
+  "type_transaction_installments": "FULL",
+  "due_at": "2023-09-30T05:15:25.000000Z",
+  "overdue": null,
+  "paid_at": null,
+  "paid": 0,
+  "method_card_allow": 1,
+  "method_pix_allow": 1,
+  "method_boleto_allow": 1,
+  "installments_max_allow": 1,
+  "use_only_once": 1,
+  "canceled_at": null,
+  "canceled": 0,
+  "enable": 1,
+  "generated_api": null,
+  "migrated_to_client_webhook": null,
+  "amount_variable": null,
+  "migrated_to_client_webhook_at": null,
+  "id_user_created_charge": null,
+  "aditional_info": null,
+  "type_transaction": null,
+  "name_notification": null,
+  "cellphone_notification": null,
+  "email_notification": null,
+  "discounts": "[{\"interest\": {\"value\": \"0.00\"}}, {\"fine\": {\"value\": \"0.00\"}}, {\"discount\": {\"type\": \"FIXED\", \"value\": \"0.0\", \"dueDateLimitDays\": 0}}]",
+  "split": [
+    {
+      "type": "FIXED",
+      "amount": 2,
+      "id_establishment": "5bb8547a-d666-4b14-a9b4-843e173636bd"
+    }
+  ],
+  "is_donation": null,
+  "enable_input_info_complement": null,
+  "info_complement_labels": null,
+  "created_at": "2023-05-31T14:28:04.000000Z",
+  "updated_at": "2023-05-31T14:28:04.000000Z",
+  "deleted_at": null,
+  "payments": []
 }
 ```
+
+Para resgatar os detalhes de uma cobrança por meio da API da Youpay é necessário realizar um **`GET`** para **`http://homolog.youpay.digital/api/charge/<id_da_cobrança>`** passando o identificador da cobrança na como um parâmetro da rota.
 
 This endpoint retrieves a specific kitten.
 
