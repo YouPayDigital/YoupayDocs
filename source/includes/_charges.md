@@ -284,9 +284,9 @@ Nesta seção da documentação, você irá aprender como gerar uma nova cobran�
 | Parâmetro                                            | Descrição                                                 | Tipo      |
 | ---------------------------------------------------- | --------------------------------------------------------- | --------- |
 | description <sub>Obrigatório</sub>                   | Descrição/Título da cobrança                              | String    |
-| obs                                                  | Campo para observações extras da cobrança                 | string    |
-| type_transaction_installments <sub>Obrigatório</sub> | Tipo de parcelamento da cobrança                          | string    |
-| installments_max_allow <sub>Obrigatório</sub>        | Número máximo permitido de parcelas                       | string    |
+| obs                                                  | Campo para observações extras da cobrança                 | String    |
+| type_transaction_installments <sub>Obrigatório</sub> | Tipo de parcelamento da cobrança                          | String    |
+| installments_max_allow <sub>Obrigatório</sub>        | Número máximo permitido de parcelas                       | String    |
 | amount <sub>Obrigatório</sub>                        | Valor da cobrança                                         | Float     |
 | due_at <sub>Obrigatório</sub>                        | Data de vencimento da cobrança                            | Timestamp |
 | allow_card <sub>Obrigatório</sub>                    | Flag para permitir pagamento com cartão                   | Boolean   |
@@ -318,10 +318,10 @@ Para o cálculo de juros, multas e descontos nas cobranças é necessário passa
 
 #### Juros e multas
 
-| Parâmetro                    | Descrição                             | Tipo   |
-| ---------------------------- | ------------------------------------- | ------ |
-| value <sub>Obrigatório</sub> | Valor (em `R$`) dos juros ou da multa | Float  |
-| type                         | Tipo do valor dos juros ou multa      | String |
+| Parâmetro                    | Descrição                        | Tipo   |
+| ---------------------------- | -------------------------------- | ------ |
+| value <sub>Obrigatório</sub> | Valor dos juros ou da multa      | Float  |
+| type                         | Tipo do valor dos juros ou multa | String |
 
 #### Descontos
 
