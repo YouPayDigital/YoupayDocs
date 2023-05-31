@@ -327,6 +327,101 @@ Para o cálculo de juros, multas e descontos nas cobranças é necessário passa
 Assim como no split de pagamentos, o campo `type` pode ser do tipo `FIXED` ou do tipo `PERCENTAGE`, seguindo as mesmas regras já mencionadas.
 </aside>
 
+### Possíveis erros
+
+> idEstablishment não informado no cabeçalho da requisição
+
+```json
+{
+  "msg": "Não permitido!.",
+  "details": "Você precisa informar o idEstablishment no header."
+}
+```
+
+> O client_id utilizado para criar o token não está vinculado a um establishment, ou não tem permissões para gerar uma cobrança
+
+```json
+{
+  "msg": "Não permitido!.",
+  "details": "O ID Client OAuth não está vinculado a nenhum estabelecimento, ou não tem permissão para o mesmo."
+}
+```
+
+> Algum campo obrigatório não foi informado
+
+```json
+{
+  "message": "The given data was invalid.",
+  "errors": {
+    "<nome_do_campo>": ["O campo <nome_do_campo> é obrigatório."]
+  }
+}
+```
+
+> O campo due_date é menor do que o dia atual
+
+```json
+{
+  "msg": "A cobrança não pode ser criada!",
+  "details": "A data de vencimento precisa ser igual ou maior que hoje."
+}
+```
+
+> Campo id_establishment no array de split não é um identificador válido
+
+```json
+{
+  "msg": "A cobrança não pode ser criada!",
+  "details": "O ID do estabelecimento <identificador_inválido> não é válido."
+}
+```
+
+> Campo id_establishment no array de split é igual ao idEstablishment do cabeçalho da requisição
+
+```json
+{
+  "msg": "A cobrança não pode ser criada!",
+  "details": "Um dos estabelecimentos contidos na regra do split é o mesmo do dono da cobrança."
+}
+```
+
+> Campo id_establishment no array de split não foi fornecido
+
+```json
+{
+  "msg": "A cobrança não pode ser criada!",
+  "details": "O split deve ser um array de objetos."
+}
+```
+
+> O array de split não possui objetos
+
+```json
+{
+  "msg": "A cobrança não pode ser criada!",
+  "details": "O split deve ser um array de objetos."
+}
+```
+
+Caso algum campo não seja preenchido corretamente, você pode se deparar com algum erro na hora de realizar a requisição.
+
+Ao lado estão alguns errors comuns e suas causas.
+
+De maneira geral, os erros de criação de cobranças seguem sempre o seguinte padrão:
+
+| Campo   | Descrição                           | Tipo   |
+| ------- | ----------------------------------- | ------ |
+| msg     | Uma mensagem sobre o erro           | String |
+| details | Mais detalhes sobre a causa do erro | String |
+
+Além desse padrão de respostas, os [status HTTP](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status) utilzados nos casos de erro também visam ajudá-lo a entender o que pode ter ocorrido, abaixo está uma lista de status utilizados nesse fluxo e o que podem significar:
+
+| Código | Nome                  | Descrição                                                                                               |
+| ------ | --------------------- | ------------------------------------------------------------------------------------------------------- |
+| 400    | Bad Request           | Alguma informação na requisição não segue o padrão desejado, olhe a mensagem de erro para mais detalhes |
+| 403    | Forbidden             | O usuário não possui os direitos para acessar o conteúdo                                                |
+| 422    | Unprocessable Content | Alguma informação obrigatória não foi fornecida no corpo da requisição                                  |
+
 ## Get a Specific Kitten
 
 ```ruby
