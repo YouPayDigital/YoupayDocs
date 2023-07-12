@@ -22,7 +22,7 @@ phases:
 
   post_build:
     commands:
-      - aws s3 cp --recursive ./build s3://youpay-documentation-api/
+      - aws s3 cp --recursive ./build/* s3://youpay-documentation-api/ --acl public-read
       - echo Build completed on `date`
 
 
