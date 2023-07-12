@@ -8,6 +8,8 @@ phases:
   pre_build:
     commands:
       - echo Logging in to Amazon ECR...
+      - pip install awscli --upgrade
+      - aws --version
       - $(aws ecr get-login --no-include-email --region us-east-1)
 
   build:
