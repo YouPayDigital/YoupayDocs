@@ -11,6 +11,8 @@ phases:
       - pip install awscli --upgrade
       - aws --version
       - $(aws ecr get-login --no-include-email --region us-east-1)
+      - echo Logging in to Docker Hub...
+      - echo $DOCKERHUB_PASSWORD | docker login --username $DOCKERHUB_USERNAME --password-stdin
 
   build:
     commands:
