@@ -11,4 +11,4 @@ Há ainda o suporte de chamadas diretas aos recursos da API a partir de outras o
 
 Todas as respostas da API estão no formato de dados JSON, incluindo errors.
 
-Durante o restante da documentação todos os exemplos utilizarão a URL do nosso ambiente de homologação `https://homolog.youpay.digital`. Sinta-se a vontade para testar suas requisições nesse ambiente e, quando estiver pronto, mudar para o ambiente de produção `https://youpay.digital`.
+Durante o restante da documentação todos os exemplos utilizarão a URL do nosso ambiente de homologação `https://homolog.youpay.digital`. Sinta-se a vontade para testar suas requisições nesse ambiente e, quando estiver pronto, mudar para o ambiente de produção `https://app.youpay.digital`.
