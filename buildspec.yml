@@ -18,10 +18,11 @@ phases:
     commands:
       - echo Building Docker image...
       - docker build -t slate-builder .
+      - docker run -v $PWD:/srv/slate -w /srv/slate slate-builder
 
   post_build:
     commands:
-      - aws s3 cp --recursive . s3://youpay-documentation-api/
+      - aws s3 cp --recursive ./build s3://youpay-documentation-api/
       - echo Build completed on `date`
 
 
